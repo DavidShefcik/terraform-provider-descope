@@ -19,6 +19,7 @@ var ConnectorsAttributes = map[string]schema.Attribute{
 	"amplitude":                  listattr.Optional(AmplitudeAttributes),
 	"audit_webhook":              listattr.Optional(AuditWebhookAttributes),
 	"aws_s3":                     listattr.Optional(AWSS3Attributes, AWSS3Validator),
+	"aws_ses":                    listattr.Optional(AWSSESAttributes),
 	"aws_translate":              listattr.Optional(AWSTranslateAttributes),
 	"clear":                      listattr.Optional(ClearAttributes),
 	"datadog":                    listattr.Optional(DatadogAttributes, DatadogValidator),
@@ -59,6 +60,7 @@ type ConnectorsModel struct {
 	Amplitude                []*AmplitudeModel                `tfsdk:"amplitude"`
 	AuditWebhook             []*AuditWebhookModel             `tfsdk:"audit_webhook"`
 	AWSS3                    []*AWSS3Model                    `tfsdk:"aws_s3"`
+	AWSSES                   []*AWSSESModel                   `tfsdk:"aws_ses"`
 	AWSTranslate             []*AWSTranslateModel             `tfsdk:"aws_translate"`
 	Clear                    []*ClearModel                    `tfsdk:"clear"`
 	Datadog                  []*DatadogModel                  `tfsdk:"datadog"`
@@ -100,6 +102,7 @@ func (m *ConnectorsModel) Values(h *helpers.Handler) map[string]any {
 	listattr.Get(m.Amplitude, data, "amplitude", h)
 	listattr.Get(m.AuditWebhook, data, "audit-webhook", h)
 	listattr.Get(m.AWSS3, data, "aws-s3", h)
+	listattr.Get(m.AWSSES, data, "aws-ses", h)
 	listattr.Get(m.AWSTranslate, data, "aws-translate", h)
 	listattr.Get(m.Clear, data, "clear", h)
 	listattr.Get(m.Datadog, data, "datadog", h)
@@ -141,6 +144,7 @@ func (m *ConnectorsModel) SetValues(h *helpers.Handler, data map[string]any) {
 	SetConnectorIDs(h, data, "amplitude", m.Amplitude)
 	SetConnectorIDs(h, data, "audit-webhook", m.AuditWebhook)
 	SetConnectorIDs(h, data, "aws-s3", m.AWSS3)
+	SetConnectorIDs(h, data, "aws-ses", m.AWSSES)
 	SetConnectorIDs(h, data, "aws-translate", m.AWSTranslate)
 	SetConnectorIDs(h, data, "clear", m.Clear)
 	SetConnectorIDs(h, data, "datadog", m.Datadog)
@@ -182,6 +186,7 @@ func (m *ConnectorsModel) References(ctx context.Context) helpers.ReferencesMap 
 	addConnectorReferences(refs, "amplitude", m.Amplitude)
 	addConnectorReferences(refs, "audit-webhook", m.AuditWebhook)
 	addConnectorReferences(refs, "aws-s3", m.AWSS3)
+	addConnectorReferences(refs, "aws-ses", m.AWSSES)
 	addConnectorReferences(refs, "aws-translate", m.AWSTranslate)
 	addConnectorReferences(refs, "clear", m.Clear)
 	addConnectorReferences(refs, "datadog", m.Datadog)
@@ -224,6 +229,7 @@ func (m *ConnectorsModel) Validate(h *helpers.Handler) {
 	addConnectorNames(names, m.Amplitude)
 	addConnectorNames(names, m.AuditWebhook)
 	addConnectorNames(names, m.AWSS3)
+	addConnectorNames(names, m.AWSSES)
 	addConnectorNames(names, m.AWSTranslate)
 	addConnectorNames(names, m.Clear)
 	addConnectorNames(names, m.Datadog)
@@ -269,6 +275,7 @@ func (m *ConnectorsModel) Modify(ctx context.Context, state *ConnectorsModel, di
 	helpers.MatchModels(ctx, m.Amplitude, state.Amplitude)
 	helpers.MatchModels(ctx, m.AuditWebhook, state.AuditWebhook)
 	helpers.MatchModels(ctx, m.AWSS3, state.AWSS3)
+	helpers.MatchModels(ctx, m.AWSSES, state.AWSSES)
 	helpers.MatchModels(ctx, m.AWSTranslate, state.AWSTranslate)
 	helpers.MatchModels(ctx, m.Clear, state.Clear)
 	helpers.MatchModels(ctx, m.Datadog, state.Datadog)
